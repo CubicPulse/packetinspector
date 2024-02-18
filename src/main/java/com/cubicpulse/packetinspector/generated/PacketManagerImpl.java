@@ -1,6 +1,5 @@
 package com.cubicpulse.packetinspector.generated;
 
-import com.cubicpulse.packetinspector.PacketInspectorMod;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
 import net.minecraft.network.packet.s2c.play.SignEditorOpenS2CPacket;
 import net.minecraft.network.packet.s2c.common.SynchronizeTagsS2CPacket;
@@ -115,10 +114,31 @@ import net.minecraft.network.packet.s2c.play.UpdateSelectedSlotS2CPacket;
 import net.minecraft.network.packet.s2c.play.OpenHorseScreenS2CPacket;
 import net.minecraft.network.packet.s2c.play.ScoreboardScoreResetS2CPacket;
 
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
+import net.minecraft.network.packet.s2c.config.ReadyS2CPacket;
+import net.minecraft.network.packet.s2c.common.ResourcePackRemoveS2CPacket;
+import net.minecraft.network.packet.s2c.common.CommonPingS2CPacket;
+import net.minecraft.network.packet.s2c.config.FeaturesS2CPacket;
+import net.minecraft.network.packet.s2c.common.SynchronizeTagsS2CPacket;
+import net.minecraft.network.packet.s2c.common.DisconnectS2CPacket;
+import net.minecraft.network.packet.s2c.common.KeepAliveS2CPacket;
+import net.minecraft.network.packet.s2c.common.ResourcePackSendS2CPacket;
+import net.minecraft.network.packet.s2c.config.DynamicRegistriesS2CPacket;
+
+
+import net.minecraft.network.packet.s2c.query.QueryResponseS2CPacket;
+import net.minecraft.network.packet.s2c.query.PingResultS2CPacket;
+
+import net.minecraft.network.packet.s2c.login.LoginDisconnectS2CPacket;
+import net.minecraft.network.packet.s2c.login.LoginSuccessS2CPacket;
+import net.minecraft.network.packet.s2c.login.LoginQueryRequestS2CPacket;
+import net.minecraft.network.packet.s2c.login.LoginHelloS2CPacket;
+import net.minecraft.network.packet.s2c.login.LoginCompressionS2CPacket;
+
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.NetworkState;
 import com.cubicpulse.packetinspector.PacketManager;
-
+import com.cubicpulse.packetinspector.PacketInspectorMod;
 import java.util.Map;
 import java.util.HashMap;
 import java.lang.reflect.Field;
@@ -240,6 +260,27 @@ public class PacketManagerImpl extends PacketManager {
         types.put(UpdateSelectedSlotS2CPacket.class,new PacketManager.PacketData<UpdateSelectedSlotS2CPacket>("UpdateSelectedSlot",NetworkState.PLAY,NetworkSide.CLIENTBOUND,81,(o) -> "UpdateSelectedSlot{" + "\n    slot=" + getFromField(o, "field_12463", "slot") + "\n}"));
         types.put(OpenHorseScreenS2CPacket.class,new PacketManager.PacketData<OpenHorseScreenS2CPacket>("OpenHorseScreen",NetworkState.PLAY,NetworkSide.CLIENTBOUND,33,(o) -> "OpenHorseScreen{" + "\n    horseId=" + getFromField(o, "field_12142", "horseId") + "\n    slotCount=" + getFromField(o, "field_12143", "slotCount") + "\n    syncId=" + getFromField(o, "field_12144", "syncId") + "\n}"));
         types.put(ScoreboardScoreResetS2CPacket.class,new PacketManager.PacketData<ScoreboardScoreResetS2CPacket>("ScoreboardScoreReset",NetworkState.PLAY,NetworkSide.CLIENTBOUND,66,(o) -> "ScoreboardScoreReset{" + "\n    scoreHolderName=" + getFromField(o, "comp_2120", "scoreHolderName") + "\n}"));
+
+        types.put(CustomPayloadS2CPacket.class,new PacketManager.PacketData<CustomPayloadS2CPacket>("CustomPayload",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,0,(o) -> "CustomPayload{" + "}"));
+        types.put(ReadyS2CPacket.class,new PacketManager.PacketData<ReadyS2CPacket>("Ready",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,2,(o) -> "Ready{" + "}"));
+        types.put(ResourcePackRemoveS2CPacket.class,new PacketManager.PacketData<ResourcePackRemoveS2CPacket>("ResourcePackRemove",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,6,(o) -> "ResourcePackRemove{" + "}"));
+        types.put(CommonPingS2CPacket.class,new PacketManager.PacketData<CommonPingS2CPacket>("CommonPing",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,4,(o) -> "CommonPing{" + "\n    parameter=" + getFromField(o, "field_33751", "parameter") + "\n}"));
+        types.put(FeaturesS2CPacket.class,new PacketManager.PacketData<FeaturesS2CPacket>("Features",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,8,(o) -> "Features{" + "}"));
+        types.put(SynchronizeTagsS2CPacket.class,new PacketManager.PacketData<SynchronizeTagsS2CPacket>("SynchronizeTags",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,9,(o) -> "SynchronizeTags{" + "\n    groups=" + getFromField(o, "field_12757", "groups") + "\n}"));
+        types.put(DisconnectS2CPacket.class,new PacketManager.PacketData<DisconnectS2CPacket>("Disconnect",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,1,(o) -> "Disconnect{" + "\n    reason=" + getFromField(o, "field_12173", "reason") + "\n}"));
+        types.put(KeepAliveS2CPacket.class,new PacketManager.PacketData<KeepAliveS2CPacket>("KeepAlive",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,3,(o) -> "KeepAlive{" + "\n    id=" + getFromField(o, "field_12211", "id") + "\n}"));
+        types.put(ResourcePackSendS2CPacket.class,new PacketManager.PacketData<ResourcePackSendS2CPacket>("ResourcePackSend",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,7,(o) -> "ResourcePackSend{" + "}"));
+        types.put(DynamicRegistriesS2CPacket.class,new PacketManager.PacketData<DynamicRegistriesS2CPacket>("DynamicRegistries",NetworkState.CONFIGURATION,NetworkSide.CLIENTBOUND,5,(o) -> "DynamicRegistries{" + "\n    registryManager=" + getFromField(o, "comp_1724", "registryManager") + "\n}"));
+
+
+        types.put(QueryResponseS2CPacket.class,new PacketManager.PacketData<QueryResponseS2CPacket>("QueryResponse",NetworkState.STATUS,NetworkSide.CLIENTBOUND,0,(o) -> "QueryResponse{" + "\n    metadata=" + getFromField(o, "comp_1272", "metadata") + "\n}"));
+        types.put(PingResultS2CPacket.class,new PacketManager.PacketData<PingResultS2CPacket>("PingResult",NetworkState.STATUS,NetworkSide.CLIENTBOUND,1,(o) -> "PingResult{" + "\n    startTime=" + getFromField(o, "field_13280", "startTime") + "\n}"));
+
+        types.put(LoginDisconnectS2CPacket.class,new PacketManager.PacketData<LoginDisconnectS2CPacket>("LoginDisconnect",NetworkState.LOGIN,NetworkSide.CLIENTBOUND,0,(o) -> "LoginDisconnect{" + "\n    reason=" + getFromField(o, "field_13243", "reason") + "\n}"));
+        types.put(LoginSuccessS2CPacket.class,new PacketManager.PacketData<LoginSuccessS2CPacket>("LoginSuccess",NetworkState.LOGIN,NetworkSide.CLIENTBOUND,2,(o) -> "LoginSuccess{" + "\n    profile=" + getFromField(o, "field_13190", "profile") + "\n}"));
+        types.put(LoginQueryRequestS2CPacket.class,new PacketManager.PacketData<LoginQueryRequestS2CPacket>("LoginQueryRequest",NetworkState.LOGIN,NetworkSide.CLIENTBOUND,4,(o) -> "LoginQueryRequest{" + "\n    queryId=" + getFromField(o, "comp_1567", "queryId") + "\n}"));
+        types.put(LoginHelloS2CPacket.class,new PacketManager.PacketData<LoginHelloS2CPacket>("LoginHello",NetworkState.LOGIN,NetworkSide.CLIENTBOUND,1,(o) -> "LoginHello{" + "\n    serverId=" + getFromField(o, "field_13209", "serverId") + "\n    nonce=" + getFromField(o, "field_13210", "nonce") + "\n    publicKey=" + getFromField(o, "field_13211", "publicKey") + "\n}"));
+        types.put(LoginCompressionS2CPacket.class,new PacketManager.PacketData<LoginCompressionS2CPacket>("LoginCompression",NetworkState.LOGIN,NetworkSide.CLIENTBOUND,3,(o) -> "LoginCompression{" + "\n    compressionThreshold=" + getFromField(o, "field_13232", "compressionThreshold") + "\n}"));
 
     }
 

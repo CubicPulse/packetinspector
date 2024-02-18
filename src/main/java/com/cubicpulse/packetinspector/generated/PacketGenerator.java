@@ -28,30 +28,47 @@ public class PacketGenerator {
     private static String MINECRAFT_VERSION = "1.20.4";
     public static void main(String[] args) throws IOException {
         var play = generate(NetworkState.PLAY);
+        var config = generate(NetworkState.CONFIGURATION);
+        var handshake = generate(NetworkState.HANDSHAKING);
+        var status = generate(NetworkState.STATUS);
+        var login = generate(NetworkState.LOGIN);
         String output = String.format("""
                 package com.cubicpulse.packetinspector.generated;
+                %s
+                %s
+                %s
+                %s
                 %s
                 
                 import net.minecraft.network.NetworkSide;
                 import net.minecraft.network.NetworkState;
-                import com.cubicpulse.packetinspector.registry.PacketRegistry;
-                import com.cubicpulse.packetinspector.ExampleMod;
+                import com.cubicpulse.packetinspector.PacketManager;
+                import com.cubicpulse.packetinspector.PacketInspectorMod;
                 import java.util.Map;
                 import java.util.HashMap;
                 import java.lang.reflect.Field;
                 
-                public class PacketRegistryImpl implements PacketRegistry {
-                    private static final Map<Class<?>, PacketRegistry.PacketData> types = new HashMap<>();
+                public class PacketManagerImpl extends PacketManager {
+                    private static final Map<Class<?>, PacketManager.PacketData> types = new HashMap<>();
                    
                     static {
+                %s
+                %s
+                %s
+                %s
                 %s
                     }
                    
                     @Override
-                    public PacketRegistry.PacketData get(Class<?> clazz) {
+                    public PacketManager.PacketData get(Class<?> clazz) {
                         return types.get(clazz);
                     }
                    
+                    @Override
+                    public Map<Class<?>, PacketData> getTypes() {
+                        return types;
+                    }
+                    
                     private static Object getFromField(Object o, String nameA, String nameB) {
                         Field field = null;
                         try {
@@ -64,16 +81,16 @@ public class PacketGenerator {
                                 return field.get(o);
                             }
                         } catch (NoSuchFieldException | IllegalAccessException e) {
-                           ExampleMod.LOGGER.error("Could not read packet");
+                           PacketInspectorMod.LOGGER.error("Could not read packet");
                            e.printStackTrace();
                         }
 
                         return null;
                     }
                 }
-                """, play.getKey(), play.getValue());
+                """, play.getKey(), config.getKey(), handshake.getKey(), status.getKey(), login.getKey(), play.getValue(), config.getValue(), handshake.getValue(), status.getValue(), login.getValue());
 
-        File file = new File("src/main/java/com/cubicpulse/packetinspector/generated/PacketRegistryImpl.java");
+        File file = new File("src/main/java/com/cubicpulse/packetinspector/generated/PacketManagerImpl.java");
         if (file.exists())
             file.delete();
 
@@ -94,7 +111,7 @@ public class PacketGenerator {
                 continue;
             imports.append("\nimport ").append(classEntry.getValue().getPackageName()).append(".").append(classEntry.getValue().getSimpleName()).append(";");
             types.append("        types.put(").append(className)
-                    .append(".class,new PacketRegistry.PacketData<").append(classEntry.getValue().getSimpleName()).append(">(\"")
+                    .append(".class,new PacketManager.PacketData<").append(classEntry.getValue().getSimpleName()).append(">(\"")
                     .append(name).append("\"")
                     .append(",NetworkState.").append(state.name())
                     .append(",NetworkSide.CLIENTBOUND")
