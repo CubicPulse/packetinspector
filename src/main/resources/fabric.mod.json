@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "packetinspector",
+  "version": "${version}",
+
+  "name": "Packet Inspector Mod",
+  "description": "Inspect incoming and outgoing packets in their parsed formats",
+  "authors": [
+    "Walcriz"
+  ],
+  "contact": {
+    "homepage": "https://cubicpulse.com",
+    "sources": "https://github.com/FlorianMichael/fabric-imgui-example-mod"
+  },
+
+  "license": "MIT",
+  "icon": "assets/packetinspector/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.cubicpulse.packetinspector.PacketInspectorMod"
+    ]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.17",
+    "fabric-key-binding-api-v1": "*",
+    "fabric-api": "*",
+    "minecraft": "~1.20.4",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
